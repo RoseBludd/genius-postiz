@@ -1,0 +1,26 @@
+/* Genius branding overrides for Postiz auth + app chrome */
+
+/* Auth card: hide inline Postiz SVG wordmark, show Genius wordmark */
+.bg-\[\#0E0E0E\] svg[width="101"],
+.bg-\[\#0E0E0E\] svg[viewBox="0 0 101 33"] {
+  display: none !important;
+}
+
+.bg-\[\#0E0E0E\] .max-w-\[440px\]::before {
+  content: "";
+  display: block;
+  width: 180px;
+  height: 40px;
+  margin: 0 auto 20px auto;
+  background: url("/genius-wordmark.png") center / contain no-repeat;
+}
+
+/* Favicon-adjacent accent: Genius blue instead of Postiz pink on auth hero */
+.text-\[\#FC69FF\] {
+  color: #5b9cff !important;
+}
+
+.bg-forth,
+button.bg-forth {
+  background: #2563eb !important;
+}
