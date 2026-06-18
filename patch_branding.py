@@ -9,6 +9,7 @@ ROOT = Path("/app")
 ICON = Path("/tmp/genius-logo-icon.png")
 WORDMARK = Path("/tmp/genius-logo-wordmark.png")
 CUSTOM_CSS = Path("/app/custom.css")
+GENIUS_JS = Path("/app/genius.js")
 
 REPLACEMENTS = [
     ("Postiz Login", "Genius Login"),
@@ -206,12 +207,15 @@ def patch_auth_cookies() -> None:
 
 
 def inject_custom_css() -> None:
-    if not CUSTOM_CSS.exists():
-        return
-    css = CUSTOM_CSS.read_text(encoding="utf-8")
-    for public in ROOT.glob("apps/frontend/public"):
-        dest = public / "genius.css"
-        dest.write_text(css, encoding="utf-8")
+    if CUSTOM_CSS.exists():
+        css = CUSTOM_CSS.read_text(encoding="utf-8")
+        for public in ROOT.glob("apps/frontend/public"):
+            (public / "genius.css").write_text(css, encoding="utf-8")
+
+    if GENIUS_JS.exists():
+        js = GENIUS_JS.read_text(encoding="utf-8")
+        for public in ROOT.glob("apps/frontend/public"):
+            (public / "genius.js").write_text(js, encoding="utf-8")
 
     for html_path in ROOT.glob("apps/frontend/.next/**/*.html"):
         try:
