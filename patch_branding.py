@@ -8,8 +8,8 @@ from pathlib import Path
 ROOT = Path("/app")
 ICON = Path("/tmp/genius-logo-icon.png")
 WORDMARK = Path("/tmp/genius-logo-wordmark.png")
-CUSTOM_CSS = Path("/app/custom.css")
-GENIUS_JS = Path("/app/genius.js")
+CUSTOM_CSS = Path("/app/static-brand/genius.css")
+GENIUS_JS = Path("/app/static-brand/genius.js")
 
 REPLACEMENTS = [
     ("Postiz Login", "Genius Login"),
