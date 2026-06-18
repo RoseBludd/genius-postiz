@@ -1,5 +1,25 @@
 /* Genius branding overrides for Postiz auth + app chrome */
 
+/* Sidebar / app: replace inline Postiz P SVG with Genius terminal icon (matches favicon) */
+a[href="/launches"]:has(svg[viewBox="0 0 60 60"]),
+a[href="/launches"]:has(svg[width="60"][height="60"]) {
+  display: block;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  margin-top: 8px;
+  background: url("/favicon.png") center / contain no-repeat;
+  border-radius: 12px;
+}
+
+a[href="/launches"]:has(svg[viewBox="0 0 60 60"]) svg,
+a[href="/launches"]:has(svg[width="60"][height="60"]) svg,
+svg[viewBox="0 0 60 60"].mt-\[8px\],
+svg[viewBox="0 0 60 60"][width="60"][height="60"] {
+  display: none !important;
+}
+
 /* Auth card: hide inline Postiz SVG wordmark, show Genius wordmark */
 .bg-\[\#0E0E0E\] svg[width="101"],
 .bg-\[\#0E0E0E\] svg[viewBox="0 0 101 33"] {
@@ -15,7 +35,7 @@
   background: url("/genius-wordmark.png") center / contain no-repeat;
 }
 
-/* Favicon-adjacent accent: Genius blue instead of Postiz pink on auth hero */
+/* Postiz purple → Genius blue accents */
 .text-\[\#FC69FF\] {
   color: #5b9cff !important;
 }
