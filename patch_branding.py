@@ -89,6 +89,35 @@ def scrub_text() -> None:
             path.write_text(text, encoding="utf-8")
 
 
+def patch_auth_cookies() -> None:
+    """Use host-only cookies on Railway; .railway.app is rejected on *.up.railway.app (PSL)."""
+    patched_ts = """export function getCookieUrlFromDomain(domain: string) {
+  const url = parse(domain);
+  if (!url.hostname) return '';
+  // Host-only cookies: parent-domain .railway.app is rejected on *.up.railway.app (PSL).
+  if (url.hostname.endsWith('railway.app')) return url.hostname;
+  return url.domain! ? '.' + url.domain! : url.hostname!;
+}
+"""
+    for path in ROOT.rglob("subdomain.management.ts"):
+        path.write_text(patched_ts, encoding="utf-8")
+
+    for path in ROOT.rglob("subdomain.management.js"):
+        try:
+            text = path.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        new_text = re.sub(
+            r"return\s+url\.domain\s*\?\s*['\"]\.['\"]\s*\+\s*url\.domain\s*:\s*url\.hostname\s*;?",
+            "if (!url.hostname) return ''; "
+            "if (url.hostname.endsWith('railway.app')) return url.hostname; "
+            "return url.domain ? '.' + url.domain : url.hostname;",
+            text,
+        )
+        if new_text != text:
+            path.write_text(new_text, encoding="utf-8")
+
+
 def inject_custom_css() -> None:
     if not CUSTOM_CSS.exists():
         return
@@ -128,6 +157,7 @@ def inject_custom_css() -> None:
 def main() -> None:
     replace_public_assets()
     scrub_text()
+    patch_auth_cookies()
     inject_custom_css()
 
 
